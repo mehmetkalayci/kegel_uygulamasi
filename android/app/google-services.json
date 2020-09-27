@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "63449343423",
+    "firebase_url": "https://kegel-b12d6.firebaseio.com",
+    "project_id": "kegel-b12d6",
+    "storage_bucket": "kegel-b12d6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:63449343423:android:410cf58ff51edc980aed0a",
+        "android_client_info": {
+          "package_name": "com.telgrafla.kegelapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "63449343423-r39er0mgbq8h4od7dbvfsnimtnmu8vm3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAwVNy6ngEkiJ8nWLnlDJSuBrGgl6DCeOA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "63449343423-r39er0mgbq8h4od7dbvfsnimtnmu8vm3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
