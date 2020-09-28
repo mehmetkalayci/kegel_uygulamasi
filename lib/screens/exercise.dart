@@ -42,14 +42,17 @@ class _ExercisePageState extends State<ExercisePage> with TickerProviderStateMix
 
               return Column(
                 children: <Widget>[
+
                   DefaultTabController(
                     length: days.length,
                     child: TabBar(
                       indicatorColor: Colors.black,
                       labelColor: Colors.black,
                       unselectedLabelColor: Colors.black38,
-                      indicatorWeight: 2,
+                      indicatorWeight: 2.5,
                       isScrollable: true,
+
+
                       controller: controller,
                       tabs: [
                         for(var item in days) new Tab(text: item.name),

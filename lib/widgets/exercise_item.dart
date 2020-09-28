@@ -17,25 +17,25 @@ class ExerciseItem extends Card {
   ExerciseItem({Key key, String title, int totalDuration, String image})
       : super(
           key: key,
-          color: Colors.white,
+          color: Colors.grey[100],
           elevation: 0.5,
           child: Padding(
-            padding: EdgeInsets.all(5),
+            padding: EdgeInsets.all(20),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                ClipRRect(
-                  clipBehavior: Clip.antiAliasWithSaveLayer,
-                  borderRadius: BorderRadius.circular(5),
-                  child: CachedNetworkImage(
-                    imageUrl: image,
-                    fit: BoxFit.cover,
-                    height: 90,
-                    width: 100,
-                  ),
-                ),
-                SizedBox(width: 15),
+                // ClipRRect(
+                //   clipBehavior: Clip.antiAliasWithSaveLayer,
+                //   borderRadius: BorderRadius.circular(5),
+                //   child: CachedNetworkImage(
+                //     imageUrl: image,
+                //     fit: BoxFit.cover,
+                //     height: 90,
+                //     width: 100,
+                //   ),
+                // ),
+                // SizedBox(width: 15),
                 Expanded(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -48,7 +48,7 @@ class ExerciseItem extends Card {
                             fontSize: 20,
                             height: 1.8),
                       ),
-                      showDuration(Duration(seconds: totalDuration)),
+                      //showDuration(Duration(seconds: totalDuration)),
                     ],
                   ),
                 ),

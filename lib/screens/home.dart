@@ -93,7 +93,6 @@ class _HomePageState extends State<HomePage> {
     switch (_currentIndex) {
       case 0:
 //        return StatisticsPage();
-
         return ExercisePage();
       case 1:
         return StatisticsPage();
@@ -200,36 +199,6 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
-/*
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            DrawerHeader(
-              child: Text(Constants.APP_TITLE, style: TextStyle(fontSize: 22, color: Colors.white),),
-              decoration: BoxDecoration(
-                color: Colors.pink,
-              ),
-            ),
-            ListTile(
-              title: Text('Item 1'),
-              onTap: () {
-                // Update the state of the app.
-                // ...
-              },
-            ),
-            ListTile(
-              title: Text('Item 2'),
-              onTap: () {
-                // Update the state of the app.
-                // ...
-              },
-            ),
-          ],
-        ),
-      ),
-      */
-
     );
   }
 }

@@ -148,14 +148,14 @@ class _ExerciseDetailPageState extends State<ExerciseDetailPage>
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
-                                Text(
-                                  'Süre'.toUpperCase(),
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 22.0,
-                                      height: 1.5),
-                                ),
-                                showDuration(Duration(seconds: widget._exercise.totalDuration)),
+                                // Text(
+                                //   'Süre'.toUpperCase(),
+                                //   style: TextStyle(
+                                //       fontWeight: FontWeight.w600,
+                                //       fontSize: 22.0,
+                                //       height: 1.5),
+                                // ),
+                                // showDuration(Duration(seconds: widget._exercise.totalDuration)),
                                 SizedBox(height: 15.0),
                                 Text(
                                   'Açıklama'.toUpperCase(),

@@ -319,11 +319,16 @@ class _WaterPageState extends State<WaterPage> {
                        borderRadius: BorderRadius.circular(10.0),
                      ),
                      height: 80,
-                     child: FlatButton(
+                     child: FlatButton.icon(
                        onPressed: () {
                          _displayDialog(context, authProvider.user.uid, 'Diğer');
                        },
-                       child: Text(
+                       icon: ImageIcon(
+                         AssetImage("assets/images/milkshake.png"),
+                         size: 36,
+                         color: Colors.white,
+                       ),
+                       label: Text(
                          'DİĞER',
                          style: TextStyle(color: Colors.white),
                        ),
