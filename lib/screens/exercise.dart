@@ -2,6 +2,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:kegelapp/models/day.dart';
 import 'package:kegelapp/screens/exercise_detail.dart';
 import 'package:kegelapp/services/database.dart';
@@ -40,58 +41,75 @@ class _ExercisePageState extends State<ExercisePage> with TickerProviderStateMix
 
               controller = new TabController(length: days.length, vsync: this);
 
-              return Column(
-                children: <Widget>[
-
-                  DefaultTabController(
-                    length: days.length,
-                    child: TabBar(
-                      indicatorColor: Colors.black,
-                      labelColor: Colors.black,
-                      unselectedLabelColor: Colors.black38,
-                      indicatorWeight: 2.5,
-                      isScrollable: true,
+              return
 
 
-                      controller: controller,
-                      tabs: [
-                        for(var item in days) new Tab(text: item.name),
-                      ],
-                    ),
-                  ),
+                      Row(
+                        children: [
 
-                  Container(
-                    height: MediaQuery.of(context).size.height-200,
-                    child: TabBarView(
-                      controller: controller,
-                      children: [
-                        for(var item in days)
-                            SingleChildScrollView(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  for(var exercise in item.exercises)
-                                    GestureDetector(
-                                      onTap: (){
-                                        Navigator.push(
-                                          context,
-                                          PageTransition(
-                                            type: PageTransitionType.fade,
-                                            child: ExerciseDetailPage(exercise),
-                                          ),
-                                        );
-                                      },
-                                      child: ExerciseItem(title:exercise.title, totalDuration:exercise.totalDuration, image:exercise.coverImage),
-                                    )
+
+                          RotatedBox(
+                            quarterTurns: 3,
+                            child: DefaultTabController(
+                              length: days.length,
+                              child: TabBar(
+                                indicatorColor: Colors.pink,
+                                labelColor: Colors.pink,
+                                unselectedLabelColor: Colors.black38,
+                                isScrollable: true,
+                                labelStyle: TextStyle(fontSize: 16),
+                                controller: controller,
+                                tabs: [
+                                  for(var item in days) new Tab(text: item.name),
                                 ],
                               ),
                             ),
+                          ),
 
-                      ],
-                    ),
-                  )
-                ],
-              );
+
+
+
+                          Expanded(
+                            child: Container(
+                              padding: EdgeInsets.symmetric(horizontal: 15),
+                              height: MediaQuery.of(context).size.height-200,
+                              child: TabBarView(
+                                controller: controller,
+                                children: [
+                                  for(var item in days)
+                                    SingleChildScrollView(
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          for(var exercise in item.exercises)
+                                            GestureDetector(
+                                              onTap: (){
+                                                Navigator.push(
+                                                  context,
+                                                  PageTransition(
+                                                    type: PageTransitionType.fade,
+                                                    child: ExerciseDetailPage(exercise),
+                                                  ),
+                                                );
+                                              },
+                                              child: ExerciseItem(title:exercise.title, totalDuration:exercise.totalDuration, image:exercise.coverImage),
+                                            )
+                                        ],
+                                      ),
+                                    ),
+
+                                ],
+                              ),
+                            ),
+                          )
+
+
+                        ],
+                      );
+
+
+
+
 
 
           }
