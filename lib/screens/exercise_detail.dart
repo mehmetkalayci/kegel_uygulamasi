@@ -84,6 +84,9 @@ class _ExerciseDetailPageState extends State<ExerciseDetailPage>
         backgroundColor: Colors.transparent,
         elevation: 0,
         brightness: Brightness.light,
+        iconTheme: IconThemeData(
+          color: Colors.black, //change your color here
+        ),
       ),
       body: Stack(
         children: <Widget>[

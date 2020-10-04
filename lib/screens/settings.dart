@@ -143,7 +143,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                 Expanded(
                                   child: Text(
                                     snapshot.data.documents[index].data['hour']
-                                            .toString() +
+                                        .toString() +
                                         ':' +
                                         snapshot.data.documents[index]
                                             .data['minute']
@@ -179,7 +179,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                             color: Colors.red[400]),
                                         onPressed: () async {
                                           bool result =
-                                              await askToDelete(this.context);
+                                          await askToDelete(this.context);
                                           if (result) {
                                             turnOffNotificationById(
                                                 flutterLocalNotificationsPlugin,

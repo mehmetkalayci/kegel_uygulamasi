@@ -139,7 +139,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                             String uid = value.user.uid;
 
                             DatabaseService db = DatabaseService();
-                             db.saveProfile(uid, 0, '-', 0, 0, 0);
+                            db.saveProfile(uid, 0, '-', 0, 0, 0);
 
                             Navigator.push(
                               context,
