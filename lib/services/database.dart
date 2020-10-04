@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:kegelapp/models/day.dart';
 import 'package:kegelapp/models/user.dart';
+import 'package:kegelapp/models/week.dart';
 
 class DatabaseService {
   final Firestore _db = Firestore.instance;

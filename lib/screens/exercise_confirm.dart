@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:kegelapp/models/day.dart';
+import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
+import 'package:kegelapp/models/week.dart';
 import 'package:kegelapp/providers/auth.dart';
 import 'package:kegelapp/screens/exercise.dart';
 import 'package:kegelapp/services/database.dart';
@@ -13,6 +14,10 @@ class ExerciseConfirmPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+
+    FlutterStatusbarcolor.setStatusBarColor(Colors.white);
+    FlutterStatusbarcolor.setStatusBarWhiteForeground(false);
 
     AuthProvider authProvider = Provider.of<AuthProvider>(context);
 
@@ -77,8 +82,8 @@ class ExerciseConfirmPage extends StatelessWidget {
                     iconSize: 40,
                     onPressed: () {
 
-                       DatabaseService _db = DatabaseService();
-                       _db.saveStatisticExercise(authProvider.user.uid, this._exercise);
+                      DatabaseService _db = DatabaseService();
+                      _db.saveStatisticExercise(authProvider.user.uid, this._exercise);
 
 
                       Navigator.pop(

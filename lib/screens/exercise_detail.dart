@@ -2,7 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
-import 'package:kegelapp/models/day.dart';
+import 'package:kegelapp/models/week.dart';
 import 'package:kegelapp/screens/exercise_timer.dart';
 import 'package:page_transition/page_transition.dart';
 
@@ -71,6 +71,12 @@ class _ExerciseDetailPageState extends State<ExerciseDetailPage>
 
   @override
   Widget build(BuildContext context) {
+
+
+    //FlutterStatusbarcolor.setStatusBarColor(Colors.transparent);
+    FlutterStatusbarcolor.setStatusBarWhiteForeground(false);
+
+
     return Scaffold(
       backgroundColor: Colors.white,
       extendBodyBehindAppBar: true,
@@ -198,8 +204,7 @@ class _ExerciseDetailPageState extends State<ExerciseDetailPage>
                                     context,
                                     PageTransition(
                                       type: PageTransitionType.fade,
-                                      child: ExerciseTimerPage(
-                                          this.widget._exercise),
+                                      child: ExerciseTimerPage(this.widget._exercise),
                                     ),
                                   );
                                 },

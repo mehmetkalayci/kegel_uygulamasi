@@ -2,7 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:kegelapp/models/day.dart';
+import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
+import 'package:kegelapp/models/week.dart';
 import 'package:kegelapp/screens/exercise_confirm.dart';
 import 'package:kegelapp/widgets/progress_circle.dart';
 import 'package:page_transition/page_transition.dart';
@@ -90,26 +91,26 @@ class _ExerciseTimerState extends State<ExerciseTimerPage>
         }
 
 
-          if (this._indexOfRepeat >= this._totalRepetition) {
+        if (this._indexOfRepeat >= this._totalRepetition) {
 
 
-            this._indexOfSet++;
-            if (this._indexOfSet < this.widget._exercise.sets.length) {
-              print('sonraki set\'e geçiliyor');
+          this._indexOfSet++;
+          if (this._indexOfSet < this.widget._exercise.sets.length) {
+            print('sonraki set\'e geçiliyor');
 
-              this._indexOfStep = 0;
-              this._indexOfRepeat = 0;
-              _stepTimeRemaining = this.widget._exercise.sets[_indexOfSet].steps[_indexOfStep].stepDuration;
-              _totalRepetition = this.widget._exercise.sets[_indexOfSet].repetition;
-              print('-------------------------------------------------');
-            } else {
-              // tüm tekrarlar tamamlandı, uygulamayı sonlandır.
-              print('tüm tekrarlar tamamlandı, uygulamayı sonlandır.');
-              Vibration.vibrate(duration: 250);
-              _reset();
-            }
-
+            this._indexOfStep = 0;
+            this._indexOfRepeat = 0;
+            _stepTimeRemaining = this.widget._exercise.sets[_indexOfSet].steps[_indexOfStep].stepDuration;
+            _totalRepetition = this.widget._exercise.sets[_indexOfSet].repetition;
+            print('-------------------------------------------------');
+          } else {
+            // tüm tekrarlar tamamlandı, uygulamayı sonlandır.
+            print('tüm tekrarlar tamamlandı, uygulamayı sonlandır.');
+            Vibration.vibrate(duration: 250);
+            _reset();
           }
+
+        }
 
 
       });
@@ -160,6 +161,11 @@ class _ExerciseTimerState extends State<ExerciseTimerPage>
 
   @override
   Widget build(BuildContext context) {
+
+
+    FlutterStatusbarcolor.setStatusBarColor(Colors.white);
+    FlutterStatusbarcolor.setStatusBarWhiteForeground(false);
+
     return Scaffold(
       backgroundColor: this._colorFromHex(this.widget._exercise.sets[_indexOfSet].steps[_indexOfStep].color),
       //extendBodyBehindAppBar: true,
