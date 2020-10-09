@@ -36,118 +36,124 @@ class _ExercisePageState extends State<ExercisePage>
             return Center(child: CircularProgressIndicator());
           case ConnectionState.active:
           case ConnectionState.done:
-
-
-          List<Week> weeks = snapshot.data.documents
+            List<Week> weeks = snapshot.data.documents
                 .map((e) => Week.fromJson(e.data))
                 .toList();
 
             controller = new TabController(length: weeks.length, vsync: this);
 
-            return Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                RotatedBox(
-                  quarterTurns: 3,
-                  child: DefaultTabController(
-                    length: weeks.length,
-                    child: TabBar(
-                      indicatorColor: Colors.pink,
-                      labelColor: Colors.pink,
-                      unselectedLabelColor: Colors.black38,
-                      isScrollable: true,
-                      labelStyle:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                      unselectedLabelStyle:
-                          TextStyle(fontWeight: FontWeight.normal),
-                      controller: controller,
-                      tabs: [
-                        for (var item in weeks) new Tab(text: item.name),
-                      ],
-                    ),
+            return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Sayın hastamız egzersizlere başlamadan önce uygulamanın bildirim kısmından bildirim sisteminizi kurmayı unutmayın!'
+                        '1-2-3 \'üncü haftalar için her set aralığını 1 saat, 4-5-6 \'ıncı haftalar için ise her set aralığını 30dk olacak şekilde ayarlayın! ⤴',
+                    style: TextStyle(fontSize: 16),
                   ),
-                ),
-                Expanded(
-                  child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 15),
-                    height: MediaQuery.of(context).size.height - 200,
-                    child: TabBarView(
-                      controller: controller,
-                      children: [
-                        for (var week in weeks)
-                          SingleChildScrollView(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                for (var day in week.days)
-                                  Card(
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(7.0),
-                                      ),
-                                      clipBehavior: Clip.antiAlias,
-                                      child: InkWell(
-                                        onTap: (){
-
-                                          debugPrint("LENNNNNNNNNNNNNNNNNNNNNNN--->>>> "+ week.toJson().toString() );
-
-
-                                          Navigator.push(
-                                            context,
-                                            PageTransition(
-                                              type: PageTransitionType.fade,
-                                              child: ExerciseList(exercises: day.exercises),
-                                            ),
-                                          );
-
-                                          debugPrint(day.name);
-                                        },
-                                        child: Row(
-                                          children: [
-                                            Container(
-                                              width: 5,
-                                              height: 75,
-                                              color: Colors.pink,
-                                            ),
-                                            Expanded(
-                                              child: Padding(
-                                                padding: EdgeInsets.symmetric(
-                                                    horizontal: 15),
-                                                child: Row(
-                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                  children: [
-                                                    Text(
-                                                      day.name,
-                                                      style: TextStyle(
-                                                          fontSize: 16,
-                                                          fontWeight:
-                                                              FontWeight.bold),
-                                                    ),
-                                                    Icon(Icons.keyboard_arrow_right)
-                                                  ],
-                                                ),
-                                              ),
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-
-
-
-
-
-
-
-                              ],
-                            ),
+                  SizedBox(height: 15),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      RotatedBox(
+                        quarterTurns: 3,
+                        child: DefaultTabController(
+                          length: weeks.length,
+                          child: TabBar(
+                            indicatorColor: Colors.pink,
+                            labelColor: Colors.pink,
+                            unselectedLabelColor: Colors.black38,
+                            isScrollable: true,
+                            labelStyle: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.bold),
+                            unselectedLabelStyle:
+                                TextStyle(fontWeight: FontWeight.normal),
+                            controller: controller,
+                            tabs: [
+                              for (var item in weeks) new Tab(text: item.name),
+                            ],
                           ),
-                      ],
-                    ),
+                        ),
+                      ),
+                      Expanded(
+                        child: Container(
+                          padding: EdgeInsets.symmetric(horizontal: 15),
+                          height: MediaQuery.of(context).size.height - 200,
+                          child: TabBarView(
+                            controller: controller,
+                            children: [
+                              for (var week in weeks)
+                                SingleChildScrollView(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      for (var day in week.days)
+                                        Card(
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(7.0),
+                                          ),
+                                          clipBehavior: Clip.antiAlias,
+                                          child: InkWell(
+                                            onTap: () {
+                                              Navigator.push(
+                                                context,
+                                                PageTransition(
+                                                  type: PageTransitionType.fade,
+                                                  child: ExerciseList(
+                                                      exercises: day.exercises),
+                                                ),
+                                              );
+
+                                              debugPrint(day.name);
+                                            },
+                                            child: Row(
+                                              children: [
+                                                Container(
+                                                  width: 5,
+                                                  height: 75,
+                                                  color: Colors.pink,
+                                                ),
+                                                Expanded(
+                                                  child: Padding(
+                                                    padding:
+                                                        EdgeInsets.symmetric(
+                                                            horizontal: 15),
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      children: [
+                                                        Text(
+                                                          day.name,
+                                                          style: TextStyle(
+                                                              fontSize: 16,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold),
+                                                        ),
+                                                        Icon(Icons
+                                                            .keyboard_arrow_right)
+                                                      ],
+                                                    ),
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                    ],
+                                  ),
+                                ),
+                            ],
+                          ),
+                        ),
+                      )
+                    ],
                   ),
-                )
-              ],
-            );
+                ]);
         }
+        return Container();
       },
     );
   }

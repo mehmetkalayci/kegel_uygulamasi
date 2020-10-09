@@ -32,8 +32,7 @@ class DatabaseService {
 
     _db.collection('users').document(uid).collection('exercise').add({
       'date': now,
-      'title': exercise.title,
-      'description': exercise.description,
+      'title': exercise.statisticDetail,
       'totalDuration': exercise.totalDuration
     });
   }

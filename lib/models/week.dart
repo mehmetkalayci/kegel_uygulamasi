@@ -57,6 +57,7 @@ class Exercise {
   String description;
   String coverImage;
   List<String> images;
+  String statisticDetail;
 
   Exercise(
       {this.totalDuration,
@@ -64,7 +65,8 @@ class Exercise {
         this.title,
         this.description,
         this.coverImage,
-        this.images});
+        this.images,
+      this.statisticDetail});
 
   Exercise.fromJson(Map<String, dynamic> json) {
     totalDuration = json['totalDuration'];
@@ -78,6 +80,8 @@ class Exercise {
     description = json['description'];
     coverImage = json['coverImage'];
     images = json['images'].cast<String>();
+    statisticDetail = json['statisticDetail'];
+
   }
 
   Map<String, dynamic> toJson() {
@@ -90,6 +94,7 @@ class Exercise {
     data['description'] = this.description;
     data['coverImage'] = this.coverImage;
     data['images'] = this.images;
+    data['statisticDetail'] = this.statisticDetail;
     return data;
   }
 }

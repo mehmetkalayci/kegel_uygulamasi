@@ -18,7 +18,7 @@ class _WaterPageState extends State<WaterPage> {
 
   TextEditingController _textFieldController = TextEditingController();
 
-  _displayDialog(BuildContext context, String uid, String title) async {
+  _displayAmountDialog(BuildContext context, String uid, String title) async {
     return showDialog(
         context: context,
         builder: (context) {
@@ -27,8 +27,8 @@ class _WaterPageState extends State<WaterPage> {
             content: TextField(
               controller: _textFieldController,
               maxLength: 3,
-              decoration: InputDecoration(
-                  hintText: "Örnek: 250 ml", suffixText: ' ml'),
+              decoration:
+                  InputDecoration(hintText: "Örnek: 250 ml", suffixText: ' ml'),
               inputFormatters: <TextInputFormatter>[
                 WhitelistingTextInputFormatter.digitsOnly
               ],
@@ -38,13 +38,70 @@ class _WaterPageState extends State<WaterPage> {
               new FlatButton(
                 child: new Text('KAYDET'),
                 onPressed: () {
-                  Navigator.of(context).pop();
-
-                  _db.saveStatisticWater(uid, int.parse(_textFieldController.text), title);
+                  _db.saveStatisticWater(
+                      uid, int.parse(_textFieldController.text), title);
 
                   Fluttertoast.showToast(
-                      msg: _textFieldController.text + ' ml ${title.toLowerCase()} eklendi!',
+                      msg: _textFieldController.text +
+                          ' ml ${title.toLowerCase()} eklendi!',
                       toastLength: Toast.LENGTH_SHORT);
+
+                  Navigator.of(context).pop();
+                },
+              )
+            ],
+          );
+        });
+  }
+
+  TextEditingController _textFieldDrinkController = TextEditingController();
+  TextEditingController _textFieldDrinkAmountController =
+      TextEditingController();
+
+  _displayDrinkDialog(BuildContext context, String uid) async {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            //title: Text('Diğer içecek (ml)'),
+            content: Container(
+              height: 150,
+              child: Column(
+                children: [
+                  TextField(
+                    controller: _textFieldDrinkController,
+                    maxLength: 20,
+                    decoration: InputDecoration(hintText: "İçecek adı"),
+                    keyboardType: TextInputType.text,
+                  ),
+                  TextField(
+                    controller: _textFieldDrinkAmountController,
+                    maxLength: 3,
+                    decoration: InputDecoration(
+                        hintText: "Miktar 250 ml", suffixText: ' ml'),
+                    inputFormatters: <TextInputFormatter>[
+                      WhitelistingTextInputFormatter.digitsOnly
+                    ],
+                    keyboardType: TextInputType.number,
+                  ),
+                ],
+              ),
+            ),
+            actions: <Widget>[
+              new FlatButton(
+                child: new Text('KAYDET'),
+                onPressed: () {
+                  _db.saveStatisticWater(
+                      uid,
+                      int.parse(_textFieldDrinkAmountController.text),
+                      _textFieldDrinkController.text);
+
+                  Fluttertoast.showToast(
+                      msg: _textFieldDrinkAmountController.text +
+                          ' ml ${_textFieldDrinkController.text.toLowerCase()} eklendi!',
+                      toastLength: Toast.LENGTH_SHORT);
+
+                  Navigator.of(context).pop();
                 },
               )
             ],
@@ -82,7 +139,9 @@ class _WaterPageState extends State<WaterPage> {
                           return Padding(
                             padding: EdgeInsets.symmetric(vertical: 25),
                             child: (Text(
-                                'Günlük seviyenizi görmek için profil bilgilerinizi güncelleyin!', textAlign: TextAlign.center,)),
+                              'Günlük seviyenizi görmek için profil bilgilerinizi güncelleyin!',
+                              textAlign: TextAlign.center,
+                            )),
                           );
                         } else {
                           return Column(
@@ -173,19 +232,19 @@ class _WaterPageState extends State<WaterPage> {
                                 ],
                               ),
 
-                              SizedBox(height: 10,),
+                              SizedBox(
+                                height: 10,
+                              ),
                               (sum > snapshot.data.hydrationGoal)
                                   ? Padding(
-                                padding:EdgeInsets.all(10),
-                                child: Text(
+                                      padding: EdgeInsets.all(10),
+                                      child: Text(
                                         'Bugünkü hedeflenen sıvı miktarını doldurdunuz sağlığınız için daha fazla sıvı tüketmeyin.',
                                         textAlign: TextAlign.center,
-
                                         style: TextStyle(color: Colors.red),
                                       ),
-                                  )
+                                    )
                                   : Container(), //Text('Sağlığınız için hedeflenen miktar kadar sıvı tüketmeye özen gösterin.', textAlign: TextAlign.center,),
-
                             ],
                           );
                         }
@@ -194,15 +253,12 @@ class _WaterPageState extends State<WaterPage> {
                       }
                     }
                   }),
-
-
-
               Row(
                 children: <Widget>[
                   Expanded(
                     child: ButtonTheme(
                       shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0),
+                        borderRadius: BorderRadius.circular(10.0),
                       ),
                       height: 80,
                       child: FlatButton.icon(
@@ -212,8 +268,8 @@ class _WaterPageState extends State<WaterPage> {
                           //     msg: '240 ml eklendi!',
                           //     toastLength: Toast.LENGTH_SHORT);
 
-                          _displayDialog(context, authProvider.user.uid, 'Su');
-
+                          _drinkModalBottomSheet(
+                              context, authProvider.user.uid, 'Su');
                         },
                         icon: ImageIcon(
                           AssetImage("assets/images/drink-water.png"),
@@ -237,7 +293,8 @@ class _WaterPageState extends State<WaterPage> {
                       height: 80,
                       child: FlatButton.icon(
                         onPressed: () {
-                          _displayDialog(context, authProvider.user.uid, 'Çay');
+                          _drinkModalBottomSheet(
+                              context, authProvider.user.uid, 'Çay');
                         },
                         icon: ImageIcon(
                           AssetImage("assets/images/tea-bag.png"),
@@ -255,7 +312,6 @@ class _WaterPageState extends State<WaterPage> {
                 ],
               ),
               SizedBox(height: 20),
-
               Row(
                 children: <Widget>[
                   Expanded(
@@ -266,7 +322,8 @@ class _WaterPageState extends State<WaterPage> {
                       height: 80,
                       child: FlatButton.icon(
                         onPressed: () {
-                          _displayDialog(context, authProvider.user.uid, 'Kahve');
+                          _drinkModalBottomSheet(
+                              context, authProvider.user.uid, 'Kahve');
                         },
                         icon: ImageIcon(
                           AssetImage("assets/images/coffee.png"),
@@ -290,9 +347,8 @@ class _WaterPageState extends State<WaterPage> {
                       height: 80,
                       child: FlatButton.icon(
                         onPressed: () {
-
-                          _displayDialog(context, authProvider.user.uid, 'Meyve Suyu');
-
+                          _drinkModalBottomSheet(
+                              context, authProvider.user.uid, 'Meyve Suyu');
                         },
                         icon: ImageIcon(
                           AssetImage("assets/images/orange.png"),
@@ -310,38 +366,90 @@ class _WaterPageState extends State<WaterPage> {
                 ],
               ),
               SizedBox(height: 20),
-
-             Row(
-               children: [
-                 Expanded(
-                   child: ButtonTheme(
-                     shape: RoundedRectangleBorder(
-                       borderRadius: BorderRadius.circular(10.0),
-                     ),
-                     height: 80,
-                     child: FlatButton.icon(
-                       onPressed: () {
-                         _displayDialog(context, authProvider.user.uid, 'Diğer');
-                       },
-                       icon: ImageIcon(
-                         AssetImage("assets/images/milkshake.png"),
-                         size: 36,
-                         color: Colors.white,
-                       ),
-                       label: Text(
-                         'DİĞER',
-                         style: TextStyle(color: Colors.white),
-                       ),
-                       color: Colors.grey[400
-                       ],
-                     ),
-                   ),
-                 ),
-               ],
-             ),
+              Row(
+                children: <Widget>[
+                  Expanded(
+                    child: ButtonTheme(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      height: 80,
+                      child: FlatButton.icon(
+                        onPressed: () {
+                          _drinkModalBottomSheet(
+                              context, authProvider.user.uid, 'Alkol');
+                        },
+                        icon: ImageIcon(
+                          AssetImage("assets/images/alcohol.png"),
+                          size: 36,
+                          color: Colors.white,
+                        ),
+                        label: Text(
+                          'ALKOL',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        color: Colors.red,
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: 20),
+                  Expanded(
+                    child: ButtonTheme(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      height: 80,
+                      child: FlatButton.icon(
+                        onPressed: () {
+                          _drinkModalBottomSheet(context, authProvider.user.uid,
+                              'Gazlı İçecekler');
+                        },
+                        icon: ImageIcon(
+                          AssetImage("assets/images/soda-can.png"),
+                          size: 36,
+                          color: Colors.white,
+                        ),
+                        label: Flexible(
+                          child: Text(
+                            'GAZLI İÇECEKLER',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                        color: Colors.lightBlue,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
               SizedBox(height: 20),
-
-
+              Row(
+                children: [
+                  Expanded(
+                    child: ButtonTheme(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      height: 80,
+                      child: FlatButton.icon(
+                        onPressed: () {
+                          _displayDrinkDialog(context, authProvider.user.uid);
+                        },
+                        icon: ImageIcon(
+                          AssetImage("assets/images/milkshake.png"),
+                          size: 36,
+                          color: Colors.white,
+                        ),
+                        label: Text(
+                          'DİĞER İÇECEKLER',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        color: Colors.grey[400],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 20),
               Text(
                 'BUGÜN',
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
@@ -352,7 +460,7 @@ class _WaterPageState extends State<WaterPage> {
                   if (snapshot.hasData) {
                     return ListView.separated(
                       shrinkWrap: true,
-                      physics: ScrollPhysics(),
+                      physics: BouncingScrollPhysics(),
                       itemCount: snapshot.data.documents.length,
                       separatorBuilder: (context, index) {
                         return Divider(color: Colors.black45);
@@ -363,11 +471,12 @@ class _WaterPageState extends State<WaterPage> {
                           contentPadding: EdgeInsets.all(0),
                           leading: Icon(Icons.local_drink),
                           title: Text(snapshot
-                              .data.documents[index].data['amount']
-                              .toString() + ' ml'),
+                                  .data.documents[index].data['amount']
+                                  .toString() +
+                              ' ml'),
                           subtitle: Text(snapshot
-                            .data.documents[index].data['beverage']
-                            .toString()),
+                              .data.documents[index].data['beverage']
+                              .toString()),
                           trailing: IconButton(
                             onPressed: () {
                               _db.deleteTodaysWaterStatistic(
@@ -389,5 +498,276 @@ class _WaterPageState extends State<WaterPage> {
         return Center(child: CircularProgressIndicator());
       },
     );
+  }
+
+  _saveDrinkStat(userId, amount, drink, glassType) {
+    _db.saveStatisticWater(userId, amount, drink);
+
+    Fluttertoast.showToast(
+        msg: '1 ${glassType} ${drink.toLowerCase()} eklendi!',
+        toastLength: Toast.LENGTH_SHORT);
+
+    Navigator.of(context).pop();
+  }
+
+  void _drinkModalBottomSheet(context, userId, drink, {amount = 0}) {
+    showModalBottomSheet(
+        context: context,
+        shape: RoundedRectangleBorder(
+          borderRadius: new BorderRadius.only(
+              topLeft: const Radius.circular(10.0),
+              topRight: const Radius.circular(10.0)),
+        ),
+        backgroundColor: Colors.white,
+        builder: (BuildContext bc) {
+          switch (drink) {
+            case 'Su':
+              return Container(
+                child: new Wrap(
+                  children: <Widget>[
+                    new ListTile(
+                        leading: ImageIcon(
+                          AssetImage("assets/images/plastic-cup.png"),
+                          size: 36,
+                          color: Colors.black,
+                        ),
+                        title: new Text('Pet bardak'),
+                        onTap: () {
+                          _saveDrinkStat(userId, 180, drink, 'Pet bardak');
+                        }),
+                    new ListTile(
+                        leading: ImageIcon(
+                          AssetImage("assets/images/drink-water.png"),
+                          size: 36,
+                          color: Colors.black,
+                        ),
+                        title: new Text('Su bardağı'),
+                        onTap: () {
+                          _saveDrinkStat(userId, 200, drink, 'Su bardağı');
+                        }),
+                    new ListTile(
+                        leading: ImageIcon(
+                          AssetImage("assets/images/water.png"),
+                          size: 36,
+                          color: Colors.black,
+                        ),
+                        title: new Text('Pet şişe'),
+                        onTap: () {
+                          _saveDrinkStat(userId, 500, drink, 'Pet şişe');
+                        }),
+                    new ListTile(
+                        leading: ImageIcon(
+                          AssetImage("assets/images/drinks.png"),
+                          size: 36,
+                          color: Colors.black,
+                        ),
+                        title: new Text('Diğer'),
+                        onTap: () {
+                          _displayAmountDialog(context, userId, 'Su');
+                        }),
+                  ],
+                ),
+              );
+
+            case 'Çay':
+              return Container(
+                child: new Wrap(children: <Widget>[
+                  new ListTile(
+                      leading: ImageIcon(
+                        AssetImage("assets/images/tea-cup.png"),
+                        size: 36,
+                        color: Colors.black,
+                      ),
+                      title: new Text('Çay bardağı'),
+                      onTap: () {
+                        _saveDrinkStat(userId, 100, drink, 'Çay bardağı');
+                      }),
+                  new ListTile(
+                      leading: ImageIcon(
+                        AssetImage("assets/images/coffee-mug.png"),
+                        size: 36,
+                        color: Colors.black,
+                      ),
+                      title: new Text('Kupa'),
+                      onTap: () {
+                        _saveDrinkStat(userId, 300, drink, 'Kupa');
+                      }),
+                  ListTile(
+                      leading: ImageIcon(
+                        AssetImage("assets/images/plastic-cup.png"),
+                        size: 36,
+                        color: Colors.black,
+                      ),
+                      title: new Text('Pet bardak'),
+                      onTap: () {
+                        _saveDrinkStat(userId, 180, drink, 'Pet bardak');
+                      }),
+                  new ListTile(
+                      leading: ImageIcon(
+                        AssetImage("assets/images/drinks.png"),
+                        size: 36,
+                        color: Colors.black,
+                      ),
+                      title: new Text('Diğer'),
+                      onTap: () {
+                        _displayAmountDialog(context, userId, 'Çay');
+                      }),
+                ]),
+              );
+
+            case 'Kahve':
+              return Container(
+                child: new Wrap(children: <Widget>[
+                  new ListTile(
+                      leading: ImageIcon(
+                        AssetImage("assets/images/coffee.png"),
+                        size: 36,
+                        color: Colors.black,
+                      ),
+                      title: new Text('Fincan 80ml'),
+                      onTap: () {
+                        _saveDrinkStat(userId, 80, drink, 'Fincan');
+                      }),
+                  new ListTile(
+                      leading: ImageIcon(
+                        AssetImage("assets/images/plastic-cup.png"),
+                        size: 36,
+                        color: Colors.black,
+                      ),
+                      title: new Text('Karton bardak'),
+                      onTap: () {
+                        _saveDrinkStat(userId, 180, drink, 'Karton bardak');
+                      }),
+                  ListTile(
+                      leading: ImageIcon(
+                        AssetImage("assets/images/coffee-mug.png"),
+                        size: 36,
+                        color: Colors.black,
+                      ),
+                      title: new Text('Kupa'),
+                      onTap: () {
+                        _saveDrinkStat(userId, 300, drink, 'Kupa');
+                      }),
+                  new ListTile(
+                      leading: ImageIcon(
+                        AssetImage("assets/images/drinks.png"),
+                        size: 36,
+                        color: Colors.black,
+                      ),
+                      title: new Text('Diğer'),
+                      onTap: () {
+                        _displayAmountDialog(context, userId, 'Kahve');
+                      }),
+                ]),
+              );
+
+            case 'Meyve Suyu':
+              return Container(
+                child: new Wrap(children: <Widget>[
+                  new ListTile(
+                      leading: ImageIcon(
+                        AssetImage("assets/images/plastic-cup.png"),
+                        size: 36,
+                        color: Colors.black,
+                      ),
+                      title: new Text('Karton bardak'),
+                      onTap: () {
+                        _saveDrinkStat(userId, 180, drink, 'Karton bardak');
+                      }),
+                  new ListTile(
+                      leading: ImageIcon(
+                        AssetImage("assets/images/coffee-mug.png"),
+                        size: 36,
+                        color: Colors.black,
+                      ),
+                      title: new Text('Kupa'),
+                      onTap: () {
+                        _saveDrinkStat(userId, 300, drink, 'Kupa');
+                      }),
+                  new ListTile(
+                      leading: ImageIcon(
+                        AssetImage("assets/images/drinks.png"),
+                        size: 36,
+                        color: Colors.black,
+                      ),
+                      title: new Text('Diğer'),
+                      onTap: () {
+                        _displayAmountDialog(context, userId, 'Meyve Suyu');
+                      }),
+                ]),
+              );
+
+            case 'Alkol':
+              return Container(
+                child: new Wrap(children: <Widget>[
+                  new ListTile(
+                      leading: ImageIcon(
+                        AssetImage("assets/images/drinks.png"),
+                        size: 36,
+                        color: Colors.black,
+                      ),
+                      title: new Text('Diğer'),
+                      onTap: () {
+                        _displayAmountDialog(context, userId, 'Alkol');
+                      }),
+                ]),
+              );
+
+            case 'Gazlı İçecekler':
+              return Container(
+                child: new Wrap(children: <Widget>[
+                  new ListTile(
+                      leading: ImageIcon(
+                        AssetImage("assets/images/plastic-cup.png"),
+                        size: 36,
+                        color: Colors.black,
+                      ),
+                      title: new Text('Karton bardak'),
+                      onTap: () {
+                        _saveDrinkStat(userId, 180, drink, 'Karton bardak');
+                      }),
+                  new ListTile(
+                      leading: ImageIcon(
+                        AssetImage("assets/images/coffee-mug.png"),
+                        size: 36,
+                        color: Colors.black,
+                      ),
+                      title: new Text('Kupa'),
+                      onTap: () {
+                        _saveDrinkStat(userId, 300, drink, 'Kupa');
+                      }),
+                  new ListTile(
+                      leading: ImageIcon(
+                        AssetImage("assets/images/drinks.png"),
+                        size: 36,
+                        color: Colors.black,
+                      ),
+                      title: new Text('Diğer'),
+                      onTap: () {
+                        _displayAmountDialog(
+                            context, userId, 'Gazlı İçecekler');
+                      }),
+                ]),
+              );
+
+            default:
+              return Container();
+            // default:
+            //   return Container(
+            //     child: new Wrap(children: <Widget>[
+            //       new ListTile(
+            //           leading: ImageIcon(
+            //             AssetImage("assets/images/drinks.png"),
+            //             size: 36,
+            //             color: Colors.black,
+            //           ),
+            //           title: new Text('Diğer'),
+            //           onTap: () {
+            //             _displayDrinkDialog(context, userId);
+            //           }),
+            //     ]),
+            //   );
+          }
+        });
   }
 }

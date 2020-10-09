@@ -89,7 +89,7 @@ class _SettingsPageState extends State<SettingsPage> {
         backgroundColor: Colors.white,
         iconTheme: IconThemeData(color: Colors.black),
         elevation: 0,
-        title: Text('Ayarlar',
+        title: Text('Bildirim',
             style: TextStyle(fontSize: 22, color: Colors.black)),
         actions: <Widget>[
           IconButton(

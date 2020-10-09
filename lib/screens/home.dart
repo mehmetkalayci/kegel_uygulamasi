@@ -149,7 +149,7 @@ class _HomePageState extends State<HomePage> {
               ),
               PopupMenuItem(
                 value: 2,
-                child: Text("Ayarlar"),
+                child: Text("Bildirim"),
               ),
               PopupMenuItem(
                 value: 3,
