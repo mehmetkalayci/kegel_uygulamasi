@@ -3,10 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:kegelapp/models/week.dart';
-import 'package:kegelapp/screens/exercise_detail.dart';
 import 'package:kegelapp/screens/exercise_list.dart';
 import 'package:kegelapp/services/database.dart';
-import 'package:kegelapp/widgets/exercise_item.dart';
 import 'package:page_transition/page_transition.dart';
 
 class ExercisePage extends StatefulWidget {
@@ -45,12 +43,6 @@ class _ExercisePageState extends State<ExercisePage>
             return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    'Sayın hastamız egzersizlere başlamadan önce uygulamanın bildirim kısmından bildirim sisteminizi kurmayı unutmayın!'
-                        '1-2-3 \'üncü haftalar için her set aralığını 1 saat, 4-5-6 \'ıncı haftalar için ise her set aralığını 30dk olacak şekilde ayarlayın! ⤴',
-                    style: TextStyle(fontSize: 16),
-                  ),
-                  SizedBox(height: 15),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -87,6 +79,12 @@ class _ExercisePageState extends State<ExercisePage>
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: <Widget>[
+                                      Text(
+                                        week.description,
+                                        style: TextStyle(fontSize: 16),
+                                        textAlign: TextAlign.justify,
+                                      ),
+                                      SizedBox(height: 10),
                                       for (var day in week.days)
                                         Card(
                                           shape: RoundedRectangleBorder(

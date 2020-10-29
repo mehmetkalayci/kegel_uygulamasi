@@ -7,7 +7,8 @@ import 'package:kegelapp/models/week.dart';
 class DatabaseService {
   final Firestore _db = Firestore.instance;
 
-  void saveProfile(String uid, int age, String gender, int height, int hydration, int weight) async {
+  void saveProfile(String uid, int age, String gender, int height,
+      int hydration, int weight) async {
     await _db.collection('users').document(uid).setData({
       'age': age,
       'gender': gender,
@@ -40,23 +41,29 @@ class DatabaseService {
   void saveStatisticWater(String uid, int amount, String beverage) {
     var now = DateTime.now();
 
-    _db.collection('users').document(uid).collection('water').add({
-      'date': now,
-      'amount': amount,
-      'beverage': beverage
-    });
+    _db
+        .collection('users')
+        .document(uid)
+        .collection('water')
+        .add({'date': now, 'amount': amount, 'beverage': beverage});
   }
 
   void deleteTodaysWaterStatistic(String uid, String docID) {
-    _db.collection('users').document(uid).collection('water').document(docID).delete();
+    _db
+        .collection('users')
+        .document(uid)
+        .collection('water')
+        .document(docID)
+        .delete();
   }
 
-  Stream<QuerySnapshot> getTodaysWaterStatistics(String uid){
+  Stream<QuerySnapshot> getTodaysWaterStatistics(String uid) {
     DateTime _now = DateTime.now();
     DateTime _end = DateTime(_now.year, _now.month, _now.day, 23, 59, 59);
     DateTime _start = DateTime(_now.year, _now.month, _now.day, 0, 0);
 
-    return _db.collection('users')
+    return _db
+        .collection('users')
         .document(uid)
         .collection('water')
         .where('date', isGreaterThanOrEqualTo: _start)
@@ -71,24 +78,67 @@ class DatabaseService {
     _db.collection('users').document(uid).collection('notifications').add({
       'date': now,
       'hour': hour,
-      'minute' : minute,
+      'minute': minute,
       'status': true,
       'id': int.parse(hour.toString() + minute.toString())
     });
   }
 
   void changeStatusOfNotification(String uid, String docID, bool status) {
-    _db.collection('users').document(uid).collection('notifications').document(docID).updateData({
+    _db
+        .collection('users')
+        .document(uid)
+        .collection('notifications')
+        .document(docID)
+        .updateData({
       'status': status,
     });
   }
 
   void deleteNotification(String uid, String docID) {
-    _db.collection('users').document(uid).collection('notifications').document(docID).delete();
+    _db
+        .collection('users')
+        .document(uid)
+        .collection('notifications')
+        .document(docID)
+        .delete();
   }
 
-  Stream<QuerySnapshot> getNotifications(String uid){
-    return _db.collection('users').document(uid).collection('notifications').snapshots();
+  Stream<QuerySnapshot> getNotifications(String uid) {
+    return _db
+        .collection('users')
+        .document(uid)
+        .collection('notifications')
+        .snapshots();
   }
 
+  Future<QuerySnapshot> getTodaysTeaIntakes(String uid) {
+    DateTime _now = DateTime.now();
+    DateTime _end = DateTime(_now.year, _now.month, _now.day, 23, 59, 59);
+    DateTime _start = DateTime(_now.year, _now.month, _now.day, 0, 0);
+
+    return _db
+        .collection('users')
+        .document(uid)
+        .collection('water')
+        .where('date', isGreaterThanOrEqualTo: _start)
+        .where('date', isLessThanOrEqualTo: _end)
+        .where('beverage', isEqualTo: 'Çay')
+        .getDocuments();
+  }
+
+  Future<QuerySnapshot> getTodaysCoffeeIntakes(String uid) {
+    DateTime _now = DateTime.now();
+    DateTime _end = DateTime(_now.year, _now.month, _now.day, 23, 59, 59);
+    DateTime _start = DateTime(_now.year, _now.month, _now.day, 0, 0);
+
+    return _db
+        .collection('users')
+        .document(uid)
+        .collection('water')
+        .where('date', isGreaterThanOrEqualTo: _start)
+        .where('date', isLessThanOrEqualTo: _end)
+        .where('beverage', isEqualTo: 'Kahve')
+        .getDocuments();
+  }
 }

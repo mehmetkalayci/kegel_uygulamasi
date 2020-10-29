@@ -14,7 +14,6 @@ class OnBoardingPage extends StatefulWidget {
 }
 
 class _OnBoardingPageState extends State<OnBoardingPage> {
-
   Widget _pageIndicator(bool isCurrentPage) {
     return AnimatedContainer(
       duration: Duration(milliseconds: 500),
@@ -61,7 +60,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
     );
   }
 
-  final int _numPages = 3;
+  final int _numPages = 2;
   int _currentPage = 0;
   PageController _pageController = PageController();
 
@@ -77,7 +76,6 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
     FlutterStatusbarcolor.setStatusBarWhiteForeground(false);
 
     AuthProvider authProvider = Provider.of(context);
-
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -99,16 +97,12 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                   },
                   children: <Widget>[
                     _pageBody(
-                        "Pelvik Taban Egzersizleri \nUygulamasına Hoşgeldiniz!",
+                        "Pelvik Taban Egzersizleri Uygulamasına Hoşgeldiniz!",
                         "Pelvik taban egzersizleri sayesinde güçlendirdiğiniz pelvik taban kaslarınız, idrarınızı kontrol etmenize yardımcı olur.",
                         "assets/images/3.png"),
                     _pageBody(
-                        "Nasıl Çalışır?",
-                        "Kasların yerini keşfettikten sonra, temel egzersiz olan kasılmaları uygulamaya başlayın. Alıştırmalara devam ettiğiniz sürece pelvik kası gücünüz artacaktır.",
-                        "assets/images/2.png"),
-                    _pageBody(
-                        "Profil Oluşturun",
-                        "Başlamadan önce günlük su ihtiyacını ve istatistiklerini takip etmek için profil oluşturmalısın.",
+                        "Profil Oluşturun?",
+                        "Başlamadan önce günlük su ihtiyacını ve istatistiklerini takip etmek için profil oluşturun.",
                         "assets/images/4.png"),
                   ]),
             ),
@@ -116,7 +110,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: List.generate(this._numPages,
-                      (index) => _pageIndicator(index == _currentPage)),
+                  (index) => _pageIndicator(index == _currentPage)),
             ),
             Align(
               alignment: Alignment.bottomCenter,
@@ -131,10 +125,8 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                         curve: Curves.easeInOut,
                       );
 
-
                       if (_currentPage == _numPages - 1) {
                         try {
-
                           await authProvider.signInAnonymously().then((value) {
                             String uid = value.user.uid;
 
@@ -148,7 +140,6 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                                 child: ProfilePage(),
                               ),
                             );
-
                           });
                         } catch (e) {
                           switch (e.code) {
@@ -166,23 +157,17 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                               break;
                           }
                         }
-
                       }
-
-
-
-
-
                     },
                     color: Colors.pink,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30.0)),
                     child: _currentPage < _numPages - 1
                         ? Text("İleri",
-                        style: TextStyle(fontSize: 15, color: Colors.white))
+                            style: TextStyle(fontSize: 15, color: Colors.white))
                         : Text("Haydi Başlayalım",
-                        style:
-                        TextStyle(fontSize: 15, color: Colors.white))),
+                            style:
+                                TextStyle(fontSize: 15, color: Colors.white))),
               ),
             ),
           ],

@@ -7,7 +7,9 @@ import 'package:kegelapp/helpers/constants.dart';
 import 'package:kegelapp/main.dart';
 import 'package:kegelapp/models/received_notification.dart';
 import 'package:kegelapp/screens/about.dart';
+import 'package:kegelapp/screens/advices.dart';
 import 'package:kegelapp/screens/exercise.dart';
+import 'package:kegelapp/screens/info.dart';
 import 'package:kegelapp/screens/profile.dart';
 import 'package:kegelapp/screens/settings.dart';
 import 'package:kegelapp/screens/statistic.dart';
@@ -20,11 +22,11 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
-  final MethodChannel platform =  MethodChannel('crossingthestreams.io/resourceResolver');
+  final MethodChannel platform =
+      MethodChannel('crossingthestreams.io/resourceResolver');
 
   @override
-  void initState()  {
+  void initState() {
     super.initState();
 
     _requestIOSPermissions();
@@ -35,22 +37,27 @@ class _HomePageState extends State<HomePage> {
   void _requestIOSPermissions() {
     flutterLocalNotificationsPlugin
         .resolvePlatformSpecificImplementation<
-        IOSFlutterLocalNotificationsPlugin>()
+            IOSFlutterLocalNotificationsPlugin>()
         ?.requestPermissions(
-      alert: true,
-      badge: true,
-      sound: true,
-    );
+          alert: true,
+          badge: true,
+          sound: true,
+        );
   }
 
   // IOS
   void _configureDidReceiveLocalNotificationSubject() {
-    didReceiveLocalNotificationSubject.stream.listen((ReceivedNotification receivedNotification) async {
+    didReceiveLocalNotificationSubject.stream
+        .listen((ReceivedNotification receivedNotification) async {
       await showDialog(
         context: context,
         builder: (BuildContext context) => CupertinoAlertDialog(
-          title: receivedNotification.title != null ? Text(receivedNotification.title) : null,
-          content: receivedNotification.body != null ? Text(receivedNotification.body) : null,
+          title: receivedNotification.title != null
+              ? Text(receivedNotification.title)
+              : null,
+          content: receivedNotification.body != null
+              ? Text(receivedNotification.body)
+              : null,
           actions: [
             CupertinoDialogAction(
               isDefaultAction: true,
@@ -82,9 +89,6 @@ class _HomePageState extends State<HomePage> {
     super.dispose();
   }
 
-
-
-
   /*****************************************/
 
   int _currentIndex = 0;
@@ -113,7 +117,8 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: Colors.white,
         iconTheme: IconThemeData(color: Colors.black),
         elevation: 0,
-        title: Text(Constants.APP_TITLE,  style: TextStyle(fontSize: 22, color: Colors.black)),
+        title: Text(Constants.APP_TITLE,
+            style: TextStyle(fontSize: 22, color: Colors.black)),
         actions: <Widget>[
           PopupMenuButton<int>(
             onSelected: (selectedValue) {
@@ -136,6 +141,20 @@ class _HomePageState extends State<HomePage> {
                   Navigator.push(
                     context,
                     PageTransition(
+                        type: PageTransitionType.fade, child: InfoPage()),
+                  );
+                  break;
+                case 4:
+                  Navigator.push(
+                    context,
+                    PageTransition(
+                        type: PageTransitionType.fade, child: AdvicesPage()),
+                  );
+                  break;
+                case 5:
+                  Navigator.push(
+                    context,
+                    PageTransition(
                         type: PageTransitionType.fade, child: AboutPage()),
                   );
                   break;
@@ -154,6 +173,14 @@ class _HomePageState extends State<HomePage> {
               PopupMenuItem(
                 value: 3,
                 child: Text("Nasıl Kullanılır?"),
+              ),
+              PopupMenuItem(
+                value: 4,
+                child: Text("Öneriler"),
+              ),
+              PopupMenuItem(
+                value: 5,
+                child: Text("Hakkımızda"),
               ),
             ],
           ),

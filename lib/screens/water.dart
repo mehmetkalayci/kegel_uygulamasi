@@ -18,7 +18,13 @@ class _WaterPageState extends State<WaterPage> {
 
   TextEditingController _textFieldController = TextEditingController();
 
+  TextEditingController _textFieldDrinkController = TextEditingController();
+  TextEditingController _textFieldDrinkAmountController =
+      TextEditingController();
+
   _displayAmountDialog(BuildContext context, String uid, String title) async {
+    Navigator.of(context).pop();
+
     return showDialog(
         context: context,
         builder: (context) {
@@ -53,10 +59,6 @@ class _WaterPageState extends State<WaterPage> {
           );
         });
   }
-
-  TextEditingController _textFieldDrinkController = TextEditingController();
-  TextEditingController _textFieldDrinkAmountController =
-      TextEditingController();
 
   _displayDrinkDialog(BuildContext context, String uid) async {
     return showDialog(
@@ -125,7 +127,7 @@ class _WaterPageState extends State<WaterPage> {
               0, (previousValue, element) => element.amount + previousValue);
 
           return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               FutureBuilder(
                   future: _db.getProfile(authProvider.user.uid),
@@ -253,6 +255,72 @@ class _WaterPageState extends State<WaterPage> {
                       }
                     }
                   }),
+              FutureBuilder(
+                  future: _db.getTodaysTeaIntakes(authProvider.user.uid),
+                  builder: (BuildContext context,
+                      AsyncSnapshot<QuerySnapshot> snapshot) {
+                    if (snapshot.hasError) {
+                      return Text('HATA OLUŞTU!\n' + snapshot.error.toString());
+                    } else {
+                      if (snapshot.hasData) {
+                        List<WaterStatistic> teaIntakesList = snapshot
+                            .data.documents
+                            .map((e) => WaterStatistic.fromJson(e.data))
+                            .toList();
+
+                        int teaAmount = teaIntakesList.fold(
+                            0,
+                            (previousValue, element) =>
+                                element.amount + previousValue);
+
+                        if (teaAmount >= 300)
+                          return Padding(
+                            padding: EdgeInsets.all(10),
+                            child: Text(
+                              'Günlük 300ml den fazla çay tüketmeyin!',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(color: Colors.red),
+                            ),
+                          );
+                      } else {
+                        return Container(); //return Center(child: CircularProgressIndicator());
+                      }
+                      return Container();
+                    }
+                  }),
+              FutureBuilder(
+                  future: _db.getTodaysCoffeeIntakes(authProvider.user.uid),
+                  builder: (BuildContext context,
+                      AsyncSnapshot<QuerySnapshot> snapshot) {
+                    if (snapshot.hasError) {
+                      return Text('HATA OLUŞTU!\n' + snapshot.error.toString());
+                    } else {
+                      if (snapshot.hasData) {
+                        List<WaterStatistic> coffeeIntakesList = snapshot
+                            .data.documents
+                            .map((e) => WaterStatistic.fromJson(e.data))
+                            .toList();
+
+                        int coffeeAmount = coffeeIntakesList.fold(
+                            0,
+                            (previousValue, element) =>
+                                element.amount + previousValue);
+
+                        if (coffeeAmount >= 300)
+                          return Padding(
+                            padding: EdgeInsets.all(10),
+                            child: Text(
+                              'Günlük 300ml den fazla kahve tüketmeyin!',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(color: Colors.red),
+                            ),
+                          );
+                      } else {
+                        return Container(); //return Center(child: CircularProgressIndicator());
+                      }
+                      return Container();
+                    }
+                  }),
               Row(
                 children: <Widget>[
                   Expanded(
@@ -263,11 +331,6 @@ class _WaterPageState extends State<WaterPage> {
                       height: 80,
                       child: FlatButton.icon(
                         onPressed: () {
-                          // _db.saveStatisticWater(authProvider.user.uid, 240);
-                          // Fluttertoast.showToast(
-                          //     msg: '240 ml eklendi!',
-                          //     toastLength: Toast.LENGTH_SHORT);
-
                           _drinkModalBottomSheet(
                               context, authProvider.user.uid, 'Su');
                         },
@@ -752,21 +815,6 @@ class _WaterPageState extends State<WaterPage> {
 
             default:
               return Container();
-            // default:
-            //   return Container(
-            //     child: new Wrap(children: <Widget>[
-            //       new ListTile(
-            //           leading: ImageIcon(
-            //             AssetImage("assets/images/drinks.png"),
-            //             size: 36,
-            //             color: Colors.black,
-            //           ),
-            //           title: new Text('Diğer'),
-            //           onTap: () {
-            //             _displayDrinkDialog(context, userId);
-            //           }),
-            //     ]),
-            //   );
           }
         });
   }

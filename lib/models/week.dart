@@ -1,8 +1,9 @@
 class Week {
   List<Day> days;
   String name;
+  String description;
 
-  Week({this.days, this.name});
+  Week({this.days, this.name, this.description});
 
   Week.fromJson(Map<String, dynamic> json) {
     if (json['days'] != null) {
@@ -12,6 +13,7 @@ class Week {
       });
     }
     name = json['name'];
+    description = json['description'];
   }
 
   Map<String, dynamic> toJson() {
@@ -20,6 +22,7 @@ class Week {
       data['days'] = this.days.map((v) => v.toJson()).toList();
     }
     data['name'] = this.name;
+    data['description'] = this.description;
     return data;
   }
 }
@@ -61,11 +64,11 @@ class Exercise {
 
   Exercise(
       {this.totalDuration,
-        this.sets,
-        this.title,
-        this.description,
-        this.coverImage,
-        this.images,
+      this.sets,
+      this.title,
+      this.description,
+      this.coverImage,
+      this.images,
       this.statisticDetail});
 
   Exercise.fromJson(Map<String, dynamic> json) {
@@ -81,7 +84,6 @@ class Exercise {
     coverImage = json['coverImage'];
     images = json['images'].cast<String>();
     statisticDetail = json['statisticDetail'];
-
   }
 
   Map<String, dynamic> toJson() {

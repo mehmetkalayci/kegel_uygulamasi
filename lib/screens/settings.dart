@@ -125,6 +125,13 @@ class _SettingsPageState extends State<SettingsPage> {
               padding: EdgeInsets.symmetric(horizontal: 20, vertical: 0),
               child: Column(
                 children: <Widget>[
+                  Text(
+                    'Sayın hastamız egzersizlere başlamadan önce uygulamanın bildirim kısmından bildirim sisteminizi kurmayı unutmayın!'
+                    '1-2-3 \'üncü haftalar için her set aralığını 1 saat, 4-5-6 \'ıncı haftalar için ise her set aralığını 30dk olacak şekilde ayarlayın! ⤴',
+                    style: TextStyle(fontSize: 16),
+                    textAlign: TextAlign.justify,
+                  ),
+                  SizedBox(height: 15),
                   StreamBuilder(
                     stream: _db.getNotifications(authProvider.user.uid),
                     builder: (BuildContext context,
@@ -143,7 +150,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                 Expanded(
                                   child: Text(
                                     snapshot.data.documents[index].data['hour']
-                                        .toString() +
+                                            .toString() +
                                         ':' +
                                         snapshot.data.documents[index]
                                             .data['minute']
@@ -179,7 +186,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                             color: Colors.red[400]),
                                         onPressed: () async {
                                           bool result =
-                                          await askToDelete(this.context);
+                                              await askToDelete(this.context);
                                           if (result) {
                                             turnOffNotificationById(
                                                 flutterLocalNotificationsPlugin,
@@ -203,8 +210,6 @@ class _SettingsPageState extends State<SettingsPage> {
                       return Center(child: CircularProgressIndicator());
                     },
                   ),
-
-
                 ],
               )),
         ),
